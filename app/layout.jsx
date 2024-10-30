@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar"
 import "@/assets/styles/globals.css"
 import Footer from "@/components/Footer"
-
+//FOR SEO
 export const metadata = {
     title: "PropertyPules | Find The Perfect Rental",
     description: "Find Your Dream Rental Property",
