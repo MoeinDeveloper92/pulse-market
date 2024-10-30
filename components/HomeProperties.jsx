@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react'
-import properties from "@/properties.json"
+
 import PropertyCard from './PropertyCard'
 import Link from 'next/link'
+import { fetchProperties } from "@/utils/request"
 
-const HomeProperties = () => {
 
+const HomeProperties = async () => {
 
-    const recentProperties = properties
-        .sort(() => Math.random() - Math.random())
-        .slice(0, 3)
+    const properties = await fetchProperties()
+    const recentProperties = properties.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).slice(0, 3)
 
 
     return (
@@ -33,7 +33,7 @@ const HomeProperties = () => {
             <section className="m-auto max-w-lg my-10 px-6">
                 <Link
                     href="/properties"
-                    class="block bg-black text-white text-center py-4 px-6 rounded-xl hover:bg-gray-700"
+                    className="block bg-black text-white text-center py-4 px-6 rounded-xl hover:bg-gray-700"
                 >View All Properties</Link>
             </section>
         </Fragment>
