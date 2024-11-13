@@ -28,7 +28,6 @@ const propertyPage = async () => {
                             ))}
                         </div>
                     )}
-
                 </div>
             </section>
         </Fragment>

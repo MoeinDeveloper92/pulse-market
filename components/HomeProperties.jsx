@@ -4,12 +4,13 @@ import PropertyCard from './PropertyCard'
 import Link from 'next/link'
 import { fetchProperties } from "@/utils/request"
 
-
+//this is server-side compoent
+//the data is fetched on the server and injected in the componetn
+//the genereated and rendered compoent is sent back to the client
 const HomeProperties = async () => {
-
+    
     const properties = await fetchProperties()
     const recentProperties = properties.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).slice(0, 3)
-
 
     return (
         <Fragment>
