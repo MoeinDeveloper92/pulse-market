@@ -1,9 +1,16 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+import { useParams, useRouter } from 'next/navigation'
+import { toast } from "react-toastify"
+import { fetchProperty } from '@/utils/request'
 
-
-const PropertyAddForm = () => {
+const PropertyEditForm = () => {
     const [mounted, setMounted] = useState(false)
+    const [loading, setLoading] = useState(true)
+
+    const { id } = useParams()
+    const router = useRouter()
+
     const [fields, setFields] = useState({
         type: "",
         name: " ",
@@ -28,7 +35,7 @@ const PropertyAddForm = () => {
             email: "",
             phone: ""
         },
-        images: []
+
     })
 
     //when you have multiple form fields., like checkbox, image, and tohte
@@ -76,37 +83,69 @@ const PropertyAddForm = () => {
             amenities: updatedAmenitites
         }))
     }
-    const handleImageChange = (e) => {
-        //when you suibmit a fom, there is s ubmit inform that you an array of files
-        const { files } = e.target
-        //Clone current images array
-        const updatedImages = [...fields.images]
 
-        //Add new files to the array
-        for (const file of files) {
-            updatedImages.push(file)
-        }
-
-        //update state with array of images
-        setFields((preState) => ({
-            ...preState,
-            images: updatedImages
-        }))
-    }
 
     useEffect(() => {
         setMounted(true)
+
+        //fetch property data for form
+        const fetchPropertyData = async () => {
+            try {
+                const propertyData = await fetchProperty(id)
+                if (propertyData) {
+                    //check rates for null, if so then make empty string
+                    if (propertyData && propertyData.rates) {
+                        const defaultRates = { ...propertyData.rates }
+                        for (const rate in defaultRates) {
+                            if (defaultRates[rate] === null) {
+                                defaultRates[rate] = ""
+                            }
+                        }
+                        propertyData.rates = defaultRates
+                    }
+                    setFields(propertyData)
+                }
+            } catch (error) {
+                console.log(error)
+            } finally {
+                //no matter what!!!!
+                setLoading(false)
+            }
+        }
+
+        fetchPropertyData()
     }, [])
 
-    return mounted &&
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+
+            const formData = new FormData(e.target)
+
+            const res = await fetch(`/api/properties/${id}`, {
+                method: "PUT",
+                body: formData
+            })
+
+            if (res.status === 200) {
+                router.push(`/properties/${id}`)
+            } else if (res.status === 401 || res.status === 401) {
+                toast.error("Permission Denied.")
+            } else {
+                toast.error("Something Went Wrong!")
+            }
+
+        } catch (error) {
+            toast.error("Something Went Wrong!")
+        }
+    }
+    return mounted && !loading &&
         <form
-            // when we send this to the server it will go in the form of formData which is an object in the form of Key:value
-            action='/api/properties'
-            method='POST'
-            encType='multipart/form-data'
+            onSubmit={handleSubmit}
         >
             <h2 className="text-3xl text-center font-semibold mb-6">
-                Add Property
+                Edit Property
             </h2>
 
             <div className="mb-4">
@@ -553,32 +592,17 @@ const PropertyAddForm = () => {
                 />
             </div>
 
-            <div className="mb-4">
-                <label htmlFor="images" className="block text-gray-700 font-bold mb-2"
-                >Images (Select up to 4 images)
-                </label>
 
-                <input
-                    type="file"
-                    id="images"
-                    name="images"
-                    className="border rounded w-full py-2 px-3"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    multiple
-                    required
-                />
-            </div>
             <div>
                 <button
                     className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
                     type="submit"
                 >
-                    Add Property
+                    Edit Property
                 </button>
             </div>
         </form>
 
 }
 
-export default PropertyAddForm
+export default PropertyEditForm

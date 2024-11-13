@@ -3,6 +3,9 @@ import Property from "@/models/Property"
 import { getSessionUser } from "@/utils/getSessionUser"
 import cloudinary from "@/config/cloudinary"
 
+
+//NOTE: this file should follow RESful policy and structure
+
 //GET /api/properties
 //here we create our handler
 export const GET = async (request) => {
@@ -17,6 +20,7 @@ export const GET = async (request) => {
 }
 
 
+
 export const POST = async (request) => {
     try {
         await connectDB()
@@ -28,8 +32,12 @@ export const POST = async (request) => {
 
         const { userId } = sessionUser
         const formData = await request.formData()
+
+        console.log("THIS IS FORMDATA=========>", formData)
         //Access all values from amenities and images
+
         const amenities = formData.getAll("amenities")
+
         const images = formData.getAll("images").filter((image) => image.name !== "")
 
         //create propertyData Object for database
