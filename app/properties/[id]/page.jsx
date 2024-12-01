@@ -36,7 +36,7 @@ const PropertyPage = () => {
     }
 
     if (loading) {
-        return <Spinner />
+        return <Spinner loading={loading} />
     }
     return (
         <Fragment>

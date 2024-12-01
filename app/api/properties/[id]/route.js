@@ -74,7 +74,7 @@ export const PUT = async (request, { params }) => {
         }
 
         const { userId } = sessionUser
-        console.log("FORM DATA=>>>>>>>>>>>>>>>>>>>>>>>. ", formData)
+     
         const formData = await request.formData()
 
         const { id } = await params
