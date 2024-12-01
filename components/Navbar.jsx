@@ -21,6 +21,7 @@ const Navbar = () => {
     
     useEffect(() => {
         const setAuthProviders = async () => {
+            //based on that we can get all the provides set within our configuration
             const res = await getProviders()
             setProviders(res)
 
