@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-
 import PropertyCard from './PropertyCard'
 import Link from 'next/link'
 import { fetchProperties } from "@/utils/request"
@@ -8,10 +7,8 @@ import { fetchProperties } from "@/utils/request"
 //the data is fetched on the server and injected in the componetn
 //the genereated and rendered compoent is sent back to the client
 const HomeProperties = async () => {
-    
     const properties = await fetchProperties()
     const recentProperties = properties.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).slice(0, 3)
-
     return (
         <Fragment>
             <section className="px-4 py-6">
@@ -35,7 +32,8 @@ const HomeProperties = async () => {
                 <Link
                     href="/properties"
                     className="block bg-black text-white text-center py-4 px-6 rounded-xl hover:bg-gray-700"
-                >View All Properties</Link>
+                >View All Properties
+                </Link>
             </section>
         </Fragment>
     )

@@ -16,9 +16,9 @@ const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
     //tempoprary checking for loggedin
-    const [providers, setProviders] = useState(false)
+    const [providers, setProviders] = useState(null)
     const pathName = usePathname()
-    
+
     useEffect(() => {
         const setAuthProviders = async () => {
             //based on that we can get all the provides set within our configuration

@@ -1,8 +1,6 @@
 import connectDB from '@/config/database';
 import User from '@/models/User';
-
 import GoogleProvider from 'next-auth/providers/google';
-import TwitterProvider from "next-auth/providers/twitter"
 
 
 export const authOptions = {
