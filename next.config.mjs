@@ -3,6 +3,7 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
+                // we use this for any src that we want to use...
                 protocol: "https",
                 hostname: "lh3.googleusercontent.com",
                 pathname: "**"

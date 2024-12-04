@@ -99,7 +99,7 @@ const PropertyDetails = ({ property }) => {
                 >
                     {property.amenities.map((amenity, index) => (
                         <li
-                            key={index}
+                            key={index} 
                         >
                             <FaCheck className='text-green-600 mr-2' /> {amenity}
                         </li>
