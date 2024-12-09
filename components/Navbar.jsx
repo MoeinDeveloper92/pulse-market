@@ -11,7 +11,6 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react"
 
 const Navbar = () => {
     const { data: session } = useSession()
-
     const profileImage = session?.user?.image
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
@@ -24,7 +23,6 @@ const Navbar = () => {
             //based on that we can get all the provides set within our configuration
             const res = await getProviders()
             setProviders(res)
-
         }
         setAuthProviders()
     }, [])
