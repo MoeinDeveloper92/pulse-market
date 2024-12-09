@@ -17,7 +17,7 @@ export const GET = async (request) => {
         }
 
         const { userId } = sessionUser
-        const messages = await Message.find({ recepient: userId }).populate("sender", "username").populate("property", "name")
+        const messages = await Message.find({ recipient: userId }).populate("sender", "username").populate("property", "name")
 
         return new Response(JSON.stringify(messages), { status: 200 })
     } catch (error) {
@@ -25,6 +25,7 @@ export const GET = async (request) => {
         return new Response("Something went wrong", { status: 500 })
     }
 }
+
 
 
 
