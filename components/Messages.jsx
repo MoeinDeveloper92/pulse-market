@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import Spinner from '@/components/Spinner'
 import Message from './Message'
-import { SP } from 'next/dist/shared/lib/utils'
+
 
 const Messages = () => {
     const [messages, setMessages] = useState([])
