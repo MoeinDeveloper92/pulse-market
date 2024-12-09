@@ -36,6 +36,7 @@ const BookmarkButton = ({ property }) => {
     }, [property._id, userId])
 
     const handleClick = async () => {
+        //irf the user ios not connected here!!!!
         if (!userId) {
             toast.error("You need to sign in to bookmark a Proeprty")
             return
