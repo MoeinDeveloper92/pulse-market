@@ -1,9 +1,12 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import { toast } from "react-toastify"
+import { useGlobalContext } from '@/context/GlobalContext'
+
 const Message = ({ message }) => {
     const [isDeleted, setIsDeleted] = useState(false)
     const [isRead, setIsRead] = useState(message.read)
+    const { setUnreadCount } = useGlobalContext()
 
 
     const handleReadClick = async () => {
@@ -14,10 +17,13 @@ const Message = ({ message }) => {
             if (res.status === 200) {
                 const { read } = await res.json()
                 setIsRead(read)
+
                 if (read) {
+                    setUnreadCount((pre) => pre - 1)
                     toast.success("Marked as read!")
                 } else {
                     toast.success("marked as new!")
+                    setUnreadCount((pre) => pre + 1)
                 }
             }
         } catch (error) {
@@ -26,14 +32,14 @@ const Message = ({ message }) => {
         }
     }
 
-
-
     const handleDeleteClick = async () => {
         try {
             const res = await fetch(`/api/messages/${message._id}`, { method: "DELETE" })
 
             if (res.status === 200) {
                 setIsDeleted(true)
+                //when a message gets deleted should on decremented
+                setUnreadCount((pre) => pre - 1)
                 toast.success("Message Delete!")
             }
         } catch (error) {

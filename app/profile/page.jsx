@@ -46,6 +46,7 @@ const ProfilePage = () => {
     const handleDeleteProperty = async (propertyId) => {
         if (window.confirm("Are you sure that you want to delete the proeprty?")) {
             try {
+                //this deletes the property from dtatabase
                 const res = await fetch(`/api/properties/${propertyId}`, {
                     method: "DELETE"
                 })

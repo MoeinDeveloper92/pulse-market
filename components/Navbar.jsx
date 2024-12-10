@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import logo from "@/assets/images/logo-white.png"
 import profileDefault from "@/assets/images/profile.png"
@@ -8,22 +8,24 @@ import { FaGoogle } from "react-icons/fa"
 import { usePathname } from 'next/navigation'
 import { signIn, signOut, useSession, getProviders } from "next-auth/react"
 import Spinner from './Spinner'
-
+import useClickOutside from '@/hooks/useClickOutside'
+import UnreadMessageCount from './UnreadMessageCount'
 
 const Navbar = () => {
     const { data: session } = useSession()
     const profileImage = session?.user?.image
+    const mobileMenuRef = useRef(null)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
-    const [messages, setMessage] = useState([])
+
     const [loading, setLoading] = useState(true)
     //tempoprary checking for loggedin
     const [providers, setProviders] = useState(null)
     const pathName = usePathname()
 
+    useClickOutside(mobileMenuRef, () => setIsProfileMenuOpen(false))
     useEffect(() => {
         //fetch all messages of user
-
         const setAuthProviders = async () => {
             //based on that we can get all the provides set within our configuration
             const res = await getProviders()
@@ -32,34 +34,12 @@ const Navbar = () => {
         setAuthProviders()
     }, [])
 
-    useEffect(() => {
-        const fetchMessages = async () => {
-            try {
-                const res = await fetch("/api/messages")
-                if (res.status === 200) {
-                    const data = await res.json()
-                    setMessage(data.filter((data) => !data.read))
-                    setLoading(false)
-                }
-
-            } catch (error) {
-                console.log("SOMETHING WENT WORNF")
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchMessages()
-    }, [])
-
-
-
 
     return (
         <>
             <nav className="bg-blue-700 border-b border-blue-500">
                 <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                    <div className="relative flex h-20 items-center justify-between">
+                    <div className="relative flex h-20 items-center justify-between" >
                         <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
 
                             <button
@@ -178,12 +158,7 @@ const Navbar = () => {
                                             />
                                         </svg>
                                     </button>
-                                    <span
-                                        className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
-                                    >
-                                        {messages.length}
-                                        {/* <!-- Replace with the actual number of notifications --> */}
-                                    </span>
+                                    <UnreadMessageCount session={session} />
                                 </Link>
                                 {/* <!-- Profile dropdown button --> */}
                                 <div className="relative ml-3">
@@ -192,7 +167,7 @@ const Navbar = () => {
                                             type="button"
                                             className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                                             id="user-menu-button"
-                                            aria-expanded="false"
+                                            aria-expanded={isMobileMenuOpen ? true : false}
                                             aria-haspopup="true"
                                             onClick={() => setIsProfileMenuOpen((prev) => !prev)}
                                         >
@@ -217,6 +192,7 @@ const Navbar = () => {
                                             aria-orientation="vertical"
                                             aria-labelledby="user-menu-button"
                                             tabIndex="-1"
+                                            ref={mobileMenuRef}
                                         >
                                             <Link
                                                 href="/profile"
