@@ -2,6 +2,7 @@ import React from 'react'
 import PropertySearchForm from './PropertySearchForm'
 
 const Hero = () => {
+    console.log("TESTIGN")
     return (
         <section className="bg-blue-700 py-20 mb-4">
             {/* it plaus like a container for the inner div */}
