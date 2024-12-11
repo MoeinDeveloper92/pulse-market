@@ -7,8 +7,8 @@ import { fetchProperties } from "@/utils/request"
 //the data is fetched on the server and injected in the componetn
 //the genereated and rendered compoent is sent back to the client
 const HomeProperties = async () => {
-    const properties = await fetchProperties()
-    const recentProperties = properties.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).slice(0, 3)
+    const data = await fetchProperties()
+    const recentProperties = data["properties"].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)).slice(0, 3)
     return (
         <Fragment>
             <section className="px-4 py-6">

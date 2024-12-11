@@ -3,14 +3,14 @@ const apiDomain = process.env.NEXT_PUBLIC_API_DOMAIN || null
 
 
 //htese are fcntions we call either in cleint side or server side
-async function fetchProperties() {
+async function fetchProperties({ showFeatured = false } = {}) {
     try {
         //Handle the case whe the Domain is not available yet
         if (!apiDomain) {
             return []
         }
         //this is the api already created
-        const res = await fetch(`${apiDomain}/properties`, {
+        const res = await fetch(`${apiDomain}/properties${showFeatured ? "/featured" : ""}`, {
             method: "GET",
             cache: "no-store"
         })

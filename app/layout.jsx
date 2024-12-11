@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import Footer from "@/components/Footer"
 import { GlobalProvider } from "@/context/GlobalContext"
+import "photoswipe/dist/photoswipe.css"
 //FOR SEO we set up out metadata
 export const metadata = {
     title: "PropertyPules | Find The Perfect Rental",

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import Hero from '@/components/Hero'
 import InfoBoxes from '@/components/InfoBoxes'
 import HomeProperties from '@/components/HomeProperties'
-
+import FeaturedProperties from '@/components/FeaturedProperties'
 
 const HomePage = () => {
 
@@ -10,6 +10,7 @@ const HomePage = () => {
         <Fragment>
             <Hero />
             <InfoBoxes />
+            <FeaturedProperties />
             <HomeProperties />
         </Fragment>
     )
